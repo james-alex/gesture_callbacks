@@ -21,39 +21,38 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
     this.onSecondaryLongPress,
     this.onHover,
     bool inherit = true,
-  })  : assert(inherit != null),
-        super(inherit: inherit);
+  }) : super(inherit: inherit);
 
   /// A unique identifier used to define the retrieve global [GestureCallbacks]
   /// with the [GestureCallbacks.global] constructor/provider and the related
   /// static methods.
-  final Key key;
+  final Key? key;
 
   /// Called when a tap with a primary button has occurred.
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
   /// Called when the user has tapped the screen with a primary
   /// button at the same location twice in quick succession.
-  final GestureTapCallback onDoubleTap;
+  final GestureTapCallback? onDoubleTap;
 
   /// Called when a long press gesture with a primary button has
   /// been recognized.
-  final GestureTapCallback onLongPress;
+  final GestureTapCallback? onLongPress;
 
   /// Called when a tap with a secondary button has occurred.
-  final GestureTapCallback onSecondaryTap;
+  final GestureTapCallback? onSecondaryTap;
 
   /// Called when a long press gesture with a secondary button has
   /// been recognized.
-  final GestureTapCallback onSecondaryLongPress;
+  final GestureTapCallback? onSecondaryLongPress;
 
   /// Called when a pointer enters or exits a widget's area.
-  final ValueSetter<bool> onHover;
+  final ValueSetter<bool>? onHover;
 
   /// Returns a new [GestureCallbacks] by combining `this` and [callbacks]
   /// respective values into new functions that call the values of both.
   @override
-  GestureCallbacks combine(GestureCallbacks callbacks) {
+  GestureCallbacks combine(GestureCallbacks? callbacks) {
     if (!inherit || callbacks == null) {
       return this;
     }
@@ -74,7 +73,7 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// Returns a new [GestureCallbacks] containing `this` object's values,
   /// where any `null` values fallback to [callbacks]` values.
   @override
-  GestureCallbacks merge(GestureCallbacks callbacks) {
+  GestureCallbacks merge(GestureCallbacks? callbacks) {
     if (!inherit || callbacks == null) {
       return this;
     }
@@ -98,9 +97,7 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// Registers `this` as a global [GestureCallbacks], allowing it be
   /// accessed by the [global] callbacks constructor/provider and
   /// related methods.
-  void registerAsGlobal<T>([JoinMethod join = JoinMethod.combine]) {
-    assert(join != null);
-
+  void registerAsGlobal<T>([JoinMethod? join = JoinMethod.combine]) {
     _global.add<T>(this, key: key, join: join);
   }
 
@@ -120,20 +117,22 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// If [joinDynamic] isn't `null` and global callbacks associated with the
   /// given [key] and a [dynamic] sub-type exist, they will be [merge]d or
   /// [combine]d with the returned callbacks.
-  static GestureCallbacks global<T>({
-    Key key,
-    GestureTapCallback onTap,
-    GestureTapCallback onDoubleTap,
-    GestureTapCallback onLongPress,
-    GestureTapCallback onSecondaryTap,
-    GestureTapCallback onSecondaryLongPress,
-    ValueSetter<bool> onHover,
-    JoinMethod join = JoinMethod.combine,
-    JoinMethod joinDynamic = JoinMethod.combine,
+  ///
+  /// Returns `null` if no values were provided and no corresponding global
+  /// callbacks exist.
+  static GestureCallbacks? global<T>({
+    Key? key,
+    GestureTapCallback? onTap,
+    GestureTapCallback? onDoubleTap,
+    GestureTapCallback? onLongPress,
+    GestureTapCallback? onSecondaryTap,
+    GestureTapCallback? onSecondaryLongPress,
+    ValueSetter<bool>? onHover,
+    JoinMethod? join = JoinMethod.combine,
+    JoinMethod? joinDynamic = JoinMethod.combine,
   }) {
-    assert(join != null);
-
-    var callbacks = GestureCallbacks(
+    GestureCallbacks? callbacks;
+    callbacks = GestureCallbacks(
       onTap: onTap,
       onDoubleTap: onDoubleTap,
       onLongPress: onLongPress,
@@ -158,8 +157,8 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
         joinDynamic != null &&
         _global.exists<dynamic>(key: key)) {
       callbacks = joinDynamic == JoinMethod.combine
-          ? callbacks.combine(_global.get<dynamic>(key: key))
-          : callbacks.merge(_global.get<dynamic>(key: key));
+          ? callbacks!.combine(_global.get<dynamic>(key: key))
+          : callbacks!.merge(_global.get<dynamic>(key: key));
     }
 
     return callbacks;
@@ -167,7 +166,8 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
 
   /// Returns `true` if global callbacks associated with the [key] and
   /// sub-type ([T]) exist.
-  static bool globalCallbacksExist<T>([Key key]) => _global.exists<T>(key: key);
+  static bool globalCallbacksExist<T>([Key? key]) =>
+      _global.exists<T>(key: key);
 
   /// Returns the global callbacks with the corresponding [key]
   /// and sub-type ([T]).
@@ -178,12 +178,12 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// returned callbacks, call [GestureCallbacks.global] to retrieve
   /// callbacks that are joined with the [dynamic] sub-typed callbacks,
   /// if they exist.
-  static GestureCallbacks getGlobalCallbacks<T>([Key key]) =>
+  static GestureCallbacks? getGlobalCallbacks<T>([Key? key]) =>
       _global.get<T>(key: key);
 
   /// Removes the global callbacks with the corresponding [key]
   /// and sub-type ([T]).
-  static GestureCallbacks removeGlobalCallbacks<T>([Key key]) =>
+  static GestureCallbacks? removeGlobalCallbacks<T>([Key? key]) =>
       _global.remove<T>(key: key);
 
   /// Returns a new [GestureCallbacks] by joining [callbacks] with the
@@ -196,10 +196,13 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// If [joinDynamic] isn't `null` and the sub-type ([T]) isn't [dynamic], the
   /// global callbacks associated with the [key] and a [dynamic] sub-type will
   /// be [merge]d or [combine]d into the returned callbacks, if they exist.
-  static GestureCallbacks joinWithGlobal<T>(
-    GestureCallbacks callbacks, {
-    Key key,
-    JoinMethod joinDynamic = JoinMethod.combine,
+  ///
+  /// Returns `null` if [callbacks] is `null` and no corresponding global
+  /// callbacks exist.
+  static GestureCallbacks? joinWithGlobal<T>(
+    GestureCallbacks? callbacks, {
+    Key? key,
+    JoinMethod? joinDynamic = JoinMethod.combine,
   }) {
     final globalCallbacks =
         GestureCallbacks.global<T>(key: key, joinDynamic: joinDynamic);
@@ -222,20 +225,17 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   ///
   /// If [merge] is `true`, [b] will be treated as a fallback and
   /// [a] will be returned, falling back to [b] if [a] is `null`.
-  static GestureTapCallback _combineCallbacks(
-    GestureTapCallback a,
-    GestureTapCallback b, [
+  static GestureTapCallback? _combineCallbacks(
+    GestureTapCallback? a,
+    GestureTapCallback? b, [
     bool merge = false,
-  ]) {
-    assert(merge != null);
-
-    return a != null && b != null && !merge
-        ? () {
-            a();
-            b();
-          }
-        : a ?? b;
-  }
+  ]) =>
+      a != null && b != null && !merge
+          ? () {
+              a();
+              b();
+            }
+          : a ?? b;
 
   /// Returns a new [ValueSetter] by creating a new function that
   /// calls both [a] and [b].
@@ -244,20 +244,17 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   ///
   /// If [merge] is `true`, [b] will be treated as a fallback and
   /// [a] will be returned, falling back to [b] if [a] is `null`.
-  static ValueSetter<bool> _combineValueSetter(
-    ValueSetter<bool> a,
-    ValueSetter<bool> b, [
+  static ValueSetter<bool>? _combineValueSetter(
+    ValueSetter<bool>? a,
+    ValueSetter<bool>? b, [
     bool merge = false,
-  ]) {
-    assert(merge != null);
-
-    return a != null && b != null && !merge
-        ? (value) {
-            a(value);
-            b(value);
-          }
-        : a ?? b;
-  }
+  ]) =>
+      a != null && b != null && !merge
+          ? (value) {
+              a(value);
+              b(value);
+            }
+          : a ?? b;
 
   /// Returns `true` if no callbacks were provided to `this`.
   bool get _isEmpty =>
