@@ -1,0 +1,18 @@
+name: gesture_callbacks
+description: >-
+  A solution for handling locally and globally applied generic
+  gesture callbacks, and the combination thereof.
+version: 0.1.0
+homepage: https://github.com/james-alex/gesture_callbacks
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_object_map: ^0.1.1
+
+dev_dependencies:
+  pedantic: ^1.9.2
