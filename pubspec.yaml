@@ -1,6 +1,6 @@
 name: gesture_callbacks
 description: >-
-  A solution for handling locally and globally applied generic
+  A solution for handling locally and globally defined generic
   gesture callbacks, and the combination thereof.
 version: 0.1.0
 homepage: https://github.com/james-alex/gesture_callbacks

@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_object_map/flutter_object_map.dart';
 
-/// A solution for handling locally and globally applied generic
+/// A solution for handling locally and globally defined generic
 /// gesture callbacks, and the combination thereof.
 @immutable
 class GestureCallbacks extends JoinableObject<GestureCallbacks> {
-  /// An object for handling locally and globally applied generic
+  /// An object for handling locally and globally defined generic
   /// gesture callbacks, and the combination thereof.
   ///
   /// If [inherit] is `false`, other [GestureCallbacks] will not be [merge]d
