@@ -48,7 +48,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
     this.onPanUpdate,
     this.onPanEnd,
     this.onPanCancel,
-    this.onHover,
     bool inherit = true,
   }) : super(inherit: inherit);
 
@@ -251,9 +250,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
   /// See: [GestureDetector.onForcePressEnd]
   final GestureForcePressEndCallback? onForcePressEnd;
 
-  /// Called when a pointer enters or exits a widget's area.
-  final ValueSetter<bool>? onHover;
-
   /// Returns a new [GestureCallbacks] by combining `this` and [callbacks]
   /// respective values into new functions that call the values of both.
   @override
@@ -325,7 +321,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
           onForcePressUpdate, callbacks.onForcePressUpdate),
       onForcePressEnd: _combineEventCallbacks<ForcePressDetails>(
           onForcePressEnd, callbacks.onForcePressEnd),
-      onHover: _combineEventCallbacks<bool>(onHover, callbacks.onHover),
     );
   }
 
@@ -379,7 +374,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
       onPanUpdate: onPanUpdate ?? callbacks.onPanUpdate,
       onPanEnd: onPanEnd ?? callbacks.onPanEnd,
       onPanCancel: onPanCancel ?? callbacks.onPanCancel,
-      onHover: onHover ?? callbacks.onHover,
     );
   }
 
@@ -445,7 +439,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
     GestureForcePressPeakCallback? onForcePressPeak,
     GestureForcePressUpdateCallback? onForcePressUpdate,
     GestureForcePressEndCallback? onForcePressEnd,
-    ValueSetter<bool>? onHover,
     JoinMethod join = JoinMethod.combine,
     JoinMethod? joinDynamic = JoinMethod.combine,
   }) {
@@ -484,7 +477,6 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
       onForcePressPeak: onForcePressPeak,
       onForcePressUpdate: onForcePressUpdate,
       onForcePressEnd: onForcePressEnd,
-      onHover: onHover,
     );
 
     if (callbacks._isEmpty) {
