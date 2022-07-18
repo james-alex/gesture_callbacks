@@ -1,3 +1,7 @@
+## [1.0.1] - June 28, 2021
+
+* Removed the `onHover` callback.
+
 ## [1.0.0] - June 26, 2021
 
 * Migrated to null-safe code.
