@@ -605,14 +605,41 @@ class GestureCallbacks extends JoinableObject<GestureCallbacks> {
             }
           : a ?? b;
 
-  /// Returns `true` if no callbacks were provided to `this`.
+  /// Returns `true` if there are no callbacks associated with this object.
   bool get _isEmpty =>
-      onTap == null &&
-      onDoubleTap == null &&
-      onLongPress == null &&
-      onSecondaryTap == null &&
-      onSecondaryLongPress == null &&
-      onHover == null;
+      onTapDown != null ||
+      onTapUp != null ||
+      onTap != null ||
+      onTapCancel != null ||
+      onSecondaryTap != null ||
+      onSecondaryTapDown != null ||
+      onSecondaryTapUp != null ||
+      onTertiaryTapDown != null ||
+      onTertiaryTapUp != null ||
+      onTertiaryTapCancel != null ||
+      onDoubleTapDown != null ||
+      onDoubleTap != null ||
+      onDoubleTapCancel != null ||
+      onLongPress != null ||
+      onLongPressStart != null ||
+      onLongPressMoveUpdate != null ||
+      onLongPressUp != null ||
+      onLongPressEnd != null ||
+      onSecondaryTap != null ||
+      onSecondaryLongPress != null ||
+      onSecondaryLongPressStart != null ||
+      onSecondaryLongPressMoveUpdate != null ||
+      onSecondaryLongPressUp != null ||
+      onSecondaryLongPressEnd != null ||
+      onForcePressStart != null ||
+      onForcePressPeak != null ||
+      onForcePressUpdate != null ||
+      onForcePressEnd != null ||
+      onPanDown != null ||
+      onPanStart != null ||
+      onPanUpdate != null ||
+      onPanEnd != null ||
+      onPanCancel != null;
 }
 
 typedef _Callback = void Function();
