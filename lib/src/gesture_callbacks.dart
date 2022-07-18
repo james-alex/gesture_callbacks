@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart' show GestureDetector;
 import 'package:flutter_object_map/flutter_object_map.dart';
 
 /// A solution for handling locally and globally defined generic
